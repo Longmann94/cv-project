@@ -5,10 +5,20 @@ class General extends React.Component {
     super(props);
   }
 
+
   render() {
+    const generalArr = this.props.generalArr;
+    const listItems = generalArr.map((item) =>
+      <div className="general-content" key={item.id}>
+      <li> {item.name} </li>
+      <li> {item.email} </li>
+      <li> {item.phone} </li>
+      </div>
+  );
+
     return (
       <div>
-      "General stuff"
+        {listItems}
       </div>
     );
   }

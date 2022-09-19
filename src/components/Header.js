@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header-container">
-           this is the header!
+      Long Mann CV-project 2022
       </div>
     );
   }
