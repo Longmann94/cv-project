@@ -161,7 +161,7 @@ class App extends React.Component{
                 <label htmlFor="phone">Phone: </label>
                 <Field id="phone" name="phone" placeholder="phone" />
                 <button type="submit"> Add details</button>
-                <button type="button" onClick={({resetForm}) => {this.handleEditLastEntryGeneral(); resetForm()}}>Edit Last entry </button>
+                <button type="button" onClick={this.handleEditLastEntryGeneral}>Edit Last entry </button>
                </Form>
                </Formik>
           </div>
