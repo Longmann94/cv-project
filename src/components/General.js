@@ -17,7 +17,7 @@ class General extends React.Component {
   );
 
     return (
-      <div>
+      <div className="general-section">
         {listItems}
       </div>
     );

@@ -50,6 +50,8 @@ class App extends React.Component{
 
    this.handleInputChangePracticalInfo = this.handleInputChangePracticalInfo.bind(this);
    this.handleSubmitPracticalInfo = this.handleSubmitPracticalInfo.bind(this);
+
+   this.handleEditLastEntryGeneral = this.handleEditLastEntryGeneral.bind(this);
   };
 
   handleInputChangeGeneralInfo(values){
@@ -66,7 +68,27 @@ class App extends React.Component{
   handleSubmitGeneralInfo(){
      this.setState({
        generalArr: this.state.generalArr.concat(this.state.generalInfo),
+       generalInfo: {
+         id: uniqid(),
+         name: '',
+         email: '',
+         phone: '',
+       }
      });
+  }
+
+  handleEditLastEntryGeneral(){
+    const lastEntry = this.state.generalArr.pop();
+
+    this.setState({
+      generalArr: this.state.generalArr.slice(0, this.state.generalArr.length),
+      generalInfo: {
+        id: uniqid(),
+        name: lastEntry.name,
+        email: lastEntry.email,
+        phone: lastEntry.phone,
+      }
+    });
   }
 
   handleInputChangeEducationInfo(values){
@@ -108,23 +130,25 @@ class App extends React.Component{
 
   render(){
 
-    const { generalArr, generalInfo, educationArr, educationInfo, practicalArr, practicalInfo } = this.state;
+    const { generalArr, generalInfo, lastGeneral, educationArr, educationInfo, practicalArr, practicalInfo } = this.state;
 
     return (
         <div className="main-container">
           <Header />
-          <General className="general-section" generalArr={generalArr}/>
+          <General generalArr={generalArr}/>
         <div className="general-form">
           <h2>Enter your general information</h2>
               <Formik
+               enableReinitialize = {true}
               initialValues={{
-                name: '',
-                email: '',
-                phone: '',
+                name: generalInfo.email,
+                email: generalInfo.email,
+                phone: generalInfo.phone,
               }}
-              onSubmit={async (values) => {
+              onSubmit={async (values, {resetForm}) => {
                 await this.handleInputChangeGeneralInfo(values);
                 this.handleSubmitGeneralInfo();
+                resetForm({ values: ''});
               }}
               >
               <Form>
@@ -136,11 +160,12 @@ class App extends React.Component{
 
                 <label htmlFor="phone">Phone: </label>
                 <Field id="phone" name="phone" placeholder="phone" />
-                <button type="submit"> Submit</button>
+                <button type="submit"> Add details</button>
+                <button type="button" onClick={({resetForm}) => {this.handleEditLastEntryGeneral(); resetForm()}}>Edit Last entry </button>
                </Form>
                </Formik>
           </div>
-          <Education className="education-section" educationArr={educationArr}/>
+          <Education educationArr={educationArr}/>
           <div className="education-form">
             <h2>Enter your Education information</h2>
                 <Formik
@@ -163,11 +188,11 @@ class App extends React.Component{
 
                   <label htmlFor="dateOfStudy">Date of Study: </label>
                   <Field id="dateOfStudy" name="dateOfStudy" placeholder="dateOfStudy" />
-                  <button type="submit"> Submit</button>
+                  <button type="submit"> Add details</button>
                  </Form>
                  </Formik>
             </div>
-          <Practical className="practical-section" practicalArr={practicalArr}/>
+          <Practical practicalArr={practicalArr}/>
           <div className="practical-form">
             <h2>Enter your Practical information</h2>
                 <Formik
@@ -198,7 +223,7 @@ class App extends React.Component{
 
                   <label htmlFor="details">Details: </label>
                   <Field id="details" name="details" placeholder="details" />
-                  <button type="submit"> Submit</button>
+                  <button type="submit"> Add details</button>
                  </Form>
                  </Formik>
             </div>

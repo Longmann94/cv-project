@@ -1,7 +1,7 @@
 .main-container{
   font-family: Arial, Helvetica, sans-serif;
   display:grid;
-  grid: repeat(5, 1fr) / 1fr;
+  grid: repeat(8, 1fr) / 1fr;
 }
 
 .header-container{
@@ -17,7 +17,7 @@
 }
 
 .general-section{
-  height: 200px;
+  background: snow;
 }
 
 .general-content {
@@ -25,5 +25,29 @@
 }
 
 .general-form{
+  font-size: 1.5rem;
+}
+
+.education-section{
+  background: snow;
+}
+
+.education-content {
+  color: blue;
+}
+
+.education-form{
+  font-size: 1.5rem;
+}
+
+.practical-section{
+  background: snow;
+}
+
+.practical-content {
+  color: blue;
+}
+
+.practical-form{
   font-size: 1.5rem;
 }

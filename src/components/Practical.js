@@ -18,7 +18,7 @@ class Practical extends React.Component {
   );
 
     return (
-      <div>
+      <div className="practical-section">
         {listItems}
       </div>
     );

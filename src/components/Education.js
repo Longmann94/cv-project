@@ -16,7 +16,7 @@ class Education extends React.Component {
   );
 
     return (
-      <div>
+      <div className="education-section">
         {listItems}
       </div>
     );
