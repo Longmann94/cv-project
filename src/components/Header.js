@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 class Header extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header-container">
-      Long Mann CV-project 2022 using React
+      <div className="header-title">Long Mann CV-project 2022 - Odin Project</div>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class Footer extends React.Component {
   render() {
     return (
       <div className="footer-container">
-           ©Long Mann 2022
+           <a href="https://github.com/Longmann94"> ©Long Mann 2022 - Odin Project Assignment</a>
       </div>
     );
   }

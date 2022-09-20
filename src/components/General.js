@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 class General extends React.Component {
   constructor(props) {
@@ -10,14 +10,15 @@ class General extends React.Component {
     const generalArr = this.props.generalArr;
     const listItems = generalArr.map((item) =>
       <div className="general-content" key={item.id}>
-      <li> {item.name} </li>
-      <li> {item.email} </li>
-      <li> {item.phone} </li>
+      <div className="information-label">Name:</div><div className="information-data">{item.name}</div>
+      <div className="information-label">Email:</div><div className="information-data">{item.email}</div>
+      <div className="information-label">Phone:</div><div className="information-data">{item.phone}</div>
       </div>
   );
 
     return (
       <div className="general-section">
+      <div className="section-title"> General Information: </div>
         {listItems}
       </div>
     );

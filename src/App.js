@@ -1,4 +1,4 @@
-import React, { component } from 'react';
+import React from 'react';
 import reactDOM from 'react-dom';
 import General from './components/General';
 import Education from './components/Education';
@@ -52,6 +52,8 @@ class App extends React.Component{
    this.handleSubmitPracticalInfo = this.handleSubmitPracticalInfo.bind(this);
 
    this.handleEditLastEntryGeneral = this.handleEditLastEntryGeneral.bind(this);
+   this.handleEditLastEntryEducation = this.handleEditLastEntryEducation.bind(this);
+   this.handleEditLastEntryPractical = this.handleEditLastEntryPractical.bind(this);
   };
 
   handleInputChangeGeneralInfo(values){
@@ -78,7 +80,8 @@ class App extends React.Component{
   }
 
   handleEditLastEntryGeneral(){
-    const lastEntry = this.state.generalArr.pop();
+    if(this.state.generalArr.length !== 0){
+      const lastEntry = this.state.generalArr.pop();
 
     this.setState({
       generalArr: this.state.generalArr.slice(0, this.state.generalArr.length),
@@ -89,6 +92,7 @@ class App extends React.Component{
         phone: lastEntry.phone,
       }
     });
+  }
   }
 
   handleInputChangeEducationInfo(values){
@@ -105,7 +109,29 @@ class App extends React.Component{
   handleSubmitEducationInfo(){
      this.setState({
        educationArr: this.state.educationArr.concat(this.state.educationInfo),
+       educationInfo: {
+         id: uniqid(),
+         school: '',
+         titleOfStudy: '',
+         dateOfStudy: '',
+       },
      });
+  }
+
+  handleEditLastEntryEducation(){
+    if(this.state.educationArr.length !== 0){
+      const lastEntry = this.state.educationArr.pop();
+
+    this.setState({
+      educationArr: this.state.educationArr.slice(0, this.state.educationArr.length),
+      educationInfo: {
+        id: uniqid(),
+        school: lastEntry.school,
+        titleOfStudy: lastEntry.titleOfStudy,
+        dateOfStudy: lastEntry.dateOfStudy,
+      }
+    });
+  }
   }
 
   handleInputChangePracticalInfo(values){
@@ -124,13 +150,39 @@ class App extends React.Component{
   handleSubmitPracticalInfo(){
      this.setState({
        practicalArr: this.state.practicalArr.concat(this.state.practicalInfo),
+       practicalInfo: {
+         id: uniqid(),
+         company: '',
+         position: '',
+         title: '',
+         dateOfWork: '',
+         details: '',
+       },
      });
+  }
+
+  handleEditLastEntryPractical(){
+    if(this.state.practicalArr.length !== 0){
+      const lastEntry = this.state.practicalArr.pop();
+
+    this.setState({
+      practicalArr: this.state.practicalArr.slice(0, this.state.practicalArr.length),
+      practicalInfo: {
+        id: uniqid(),
+        company: lastEntry.company,
+        position: lastEntry.position,
+        title: lastEntry.title,
+        dateOfWork: lastEntry.dateOfWork,
+        details: lastEntry.details,
+      }
+    });
+  }
   }
 
 
   render(){
 
-    const { generalArr, generalInfo, lastGeneral, educationArr, educationInfo, practicalArr, practicalInfo } = this.state;
+    const { generalArr, generalInfo, educationArr, educationInfo, practicalArr, practicalInfo } = this.state;
 
     return (
         <div className="main-container">
@@ -140,11 +192,11 @@ class App extends React.Component{
           <h2>Enter your general information</h2>
               <Formik
                enableReinitialize = {true}
-              initialValues={{
-                name: generalInfo.email,
+               initialValues={{
+                name: generalInfo.name,
                 email: generalInfo.email,
                 phone: generalInfo.phone,
-              }}
+               }}
               onSubmit={async (values, {resetForm}) => {
                 await this.handleInputChangeGeneralInfo(values);
                 this.handleSubmitGeneralInfo();
@@ -153,13 +205,14 @@ class App extends React.Component{
               >
               <Form>
                <label htmlFor="name">Name:</label>
-               <Field id="name" name="name" placeholder="name" />
+               <Field id="name" name="name" placeholder="Name" />
 
                <label htmlFor="email">Email:</label>
-               <Field id="email" name="email" placeholder="email" />
+               <Field id="email" name="email" placeholder="Email" />
 
                 <label htmlFor="phone">Phone: </label>
-                <Field id="phone" name="phone" placeholder="phone" />
+                <Field id="phone" name="phone" placeholder="Phone number" />
+
                 <button type="submit"> Add details</button>
                 <button type="button" onClick={this.handleEditLastEntryGeneral}>Edit Last entry </button>
                </Form>
@@ -169,26 +222,30 @@ class App extends React.Component{
           <div className="education-form">
             <h2>Enter your Education information</h2>
                 <Formik
-                initialValues={{
-                  school: '',
-                  titleOfStudy: '',
-                  dateOfStudy: '',
+                  enableReinitialize = {true}
+                  initialValues={{
+                  school: educationInfo.school,
+                  titleOfStudy: educationInfo.titleOfStudy,
+                  dateOfStudy: educationInfo.dateOfStudy,
                 }}
-                onSubmit={async (values) => {
+                onSubmit={async (values, {resetForm}) => {
                   await this.handleInputChangeEducationInfo(values);
                   this.handleSubmitEducationInfo();
+                  resetForm({ values: ''});
                 }}
                 >
                 <Form>
                  <label htmlFor="school">School:</label>
-                 <Field id="school" name="school" placeholder="school" />
+                 <Field id="school" name="school" placeholder="School Name" />
 
                  <label htmlFor="titleOfStudy">Title of Study:</label>
-                 <Field id="titleOfStudy" name="titleOfStudy" placeholder="titleOfStudy" />
+                 <Field id="titleOfStudy" name="titleOfStudy" placeholder="...Master of IT" />
 
                   <label htmlFor="dateOfStudy">Date of Study: </label>
-                  <Field id="dateOfStudy" name="dateOfStudy" placeholder="dateOfStudy" />
+                  <Field id="dateOfStudy" name="dateOfStudy" placeholder="Year Completed" />
+
                   <button type="submit"> Add details</button>
+                  <button type="button" onClick={this.handleEditLastEntryEducation}>Edit Last entry </button>
                  </Form>
                  </Formik>
             </div>
@@ -196,34 +253,38 @@ class App extends React.Component{
           <div className="practical-form">
             <h2>Enter your Practical information</h2>
                 <Formik
-                initialValues={{
-                  company: '',
-                  position: '',
-                  title: '',
-                  dateOfWork: '',
-                  details: '',
+                  enableReinitialize = {true}
+                  initialValues={{
+                  company: practicalInfo.company,
+                  position: practicalInfo.position,
+                  title: practicalInfo.title,
+                  dateOfWork: practicalInfo.dateOfWork,
+                  details: practicalInfo.details,
                 }}
-                onSubmit={async (values) => {
+                onSubmit={async (values, {resetForm}) => {
                   await this.handleInputChangePracticalInfo(values);
                   this.handleSubmitPracticalInfo();
+                  resetForm({ values: ''});
                 }}
                 >
                 <Form>
                  <label htmlFor="company">Company:</label>
-                 <Field id="company" name="company" placeholder="company" />
+                 <Field id="company" name="company" placeholder="Company name" />
 
                  <label htmlFor="position">Position:</label>
-                 <Field id="position" name="position" placeholder="position" />
+                 <Field id="position" name="position" placeholder="Position" />
 
                  <label htmlFor="title">Title: </label>
-                 <Field id="title" name="title" placeholder="title" />
+                 <Field id="title" name="title" placeholder="Title" />
 
                   <label htmlFor="dateOfWork">Date of Work: </label>
-                  <Field id="dateOfWork" name="dateOfWork" placeholder="dateOfWork" />
+                  <Field id="dateOfWork" name="dateOfWork" placeholder="Start...End Date" />
 
                   <label htmlFor="details">Details: </label>
-                  <Field id="details" name="details" placeholder="details" />
+                  <Field id="details" name="details" placeholder="Details..." />
+
                   <button type="submit"> Add details</button>
+                  <button type="button" onClick={this.handleEditLastEntryPractical}>Edit Last entry </button>
                  </Form>
                  </Formik>
             </div>
