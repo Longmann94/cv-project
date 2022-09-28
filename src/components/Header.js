@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header-container">
-      <div className="header-title">Long Mann CV-project 2022 - Odin Project</div>
+      <div className="header-title">Long Mann CV-project - Odin Project</div>
       </div>
     );
   }

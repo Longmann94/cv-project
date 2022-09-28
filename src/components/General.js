@@ -1,11 +1,8 @@
 import React from 'react';
 
 const General = ({ generalArr }) => {
-
-   console.log(Array.isArray(generalArr));
-   console.log(generalArr);
+  
    const listItems = generalArr.map(item => {
-     console.log(item);
     return <div className="general-content" key={item.id}>
      <div className="information-label">Name:</div><div className="information-data">{item.item.name}</div>
      <div className="information-label">Email:</div><div className="information-data">{item.item.email}</div>
